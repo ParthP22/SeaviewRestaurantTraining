@@ -6,7 +6,7 @@ from flask import Flask, render_template, redirect, url_for, session, request, f
 import database
 from routes import website
 
-@website.route('/edit_profile', methods=['GET', 'POST'])
+@website.route('/edit-profile', methods=['GET', 'POST'])
 def edit_profile():
     if request.method == 'POST':
         # This block will run when the form is submitted
@@ -32,5 +32,5 @@ def edit_profile():
 
     # This block will run for a GET request, displaying the form
     # Optionally, you can pre-fill the form based on current user data
-    return render_template('edit_profile.html')
+    return render_template('profile/edit-profile.html')
 

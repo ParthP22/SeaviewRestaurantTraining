@@ -11,9 +11,9 @@ import datetime
 from routes import website
 
 
-@website.route('/show_login')
+@website.route('/show-login')
 def show_login():
-    return render_template('index.html')
+    return render_template('login.html')
 @website.route('/login', methods=['POST'])
 def login():
     # Initialize message variable
@@ -36,20 +36,20 @@ def login():
 
         if session['restricted'] == 1:
             msg = 'Account is restricted'
-            return render_template('index.html', msg=msg)
+            return render_template('login.html', msg=msg)
 
         # After successful login, redirect to dashboard
         return redirect(url_for('authenticate_user'))
     else:
         msg = 'Incorrect username/password!'
-        return render_template('index.html', msg=msg)
+        return render_template('login.html', msg=msg)
 
 @website.route('/welcome', methods=['GET', 'POST'])
 def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
     session.pop('password', None)
-    return render_template('welcome.html')
+    return render_template('index.html')
 
 def render_employee_dashboard(account, cursor):
     cursor.execute('SELECT NUM_CORRECT, NUM_INCORRECT, MAX(ATTEMPT_NUMBER) '
@@ -126,7 +126,7 @@ def render_employee_dashboard(account, cursor):
     current_datetime = datetime.datetime.now()
     formatted_current_datetime = current_datetime.strftime("%Y-%m-%dT%H:%M:%S")
 
-    return render_template('employee_dashboard.html', progress=total_correct, total_questions=total_questions, quizzes=quizzes, percent=percent, num_correct=num_correct, num_incorrect=num_incorrect, quiz_list=quiz_list, current_date = formatted_current_datetime)
+    return render_template('employee/employee-dashboard.html', progress=total_correct, total_questions=total_questions, quizzes=quizzes, percent=percent, num_correct=num_correct, num_incorrect=num_incorrect, quiz_list=quiz_list, current_date = formatted_current_datetime)
 
 @website.route('/dashboard', methods=['GET', 'POST'])
 def authenticate_user():
@@ -138,7 +138,7 @@ def authenticate_user():
         cursor.execute('SELECT * FROM Users WHERE Username=? AND Password=?', (session['username'], session['password']))
         account = cursor.fetchone()
         if account and account[6] == 1:
-            return render_template('manager_dashboard.html')
+            return render_template('manager/manager-dashboard.html')
         else:
             print("Back to dashboard")
             cursor.execute('SELECT IS_COMPLETED FROM USERS WHERE ID=? ', (session['id'],))

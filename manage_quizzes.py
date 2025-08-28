@@ -17,7 +17,7 @@ from email.mime.image import MIMEImage
 
 
 
-@website.route('/manage_quizzes')
+@website.route('/manage-quizzes')
 def manage_quizzes():
     if session['role'] == 1:
         cursor = database.conn.cursor()
@@ -27,12 +27,12 @@ def manage_quizzes():
 
         cursor.execute('SELECT * FROM QUIZZES')
         quizzes = cursor.fetchall()
-        return render_template('manage_quizzes.html', quizzes = quizzes, current_date = formatted_current_datetime)
+        return render_template('manager/manage-quizzes.html', quizzes = quizzes, current_date = formatted_current_datetime)
     else:
-        return render_template('prohibited.html')
+        return render_template('error/prohibited.html')
 
 #Routes quiz list to the quiz editor
-@website.route('/quiz_editor')
+@website.route('/quiz-editor')
 def quiz_editor():
     if session['role'] == 1:
         quiz_id = request.args.get('quiz_id')
@@ -59,12 +59,12 @@ def quiz_editor():
 
         cursor.close()
 
-        return render_template('quiz_editor.html', quiz_id=quiz_id, quiz_name=quiz_name, quiz_desc=quiz_desc,
+        return render_template('quiz/quiz-editor.html', quiz_id=quiz_id, quiz_name=quiz_name, quiz_desc=quiz_desc,
                                questions=questions)
     else:
-        return render_template('prohibited.html')
+        return render_template('error/prohibited.html')
 
-@website.route('/quiz_material', methods=['GET', 'POST'])
+@website.route('/quiz-material', methods=['GET', 'POST'])
 def quiz_material():
     quiz_id = request.args.get('id')
 
@@ -80,11 +80,11 @@ def quiz_material():
         image_base64 = None
 
 
-    return render_template('quiz_material.html', quiz_id=quiz_id, image_data=image_base64)
+    return render_template('quiz/quiz-material.html', quiz_id=quiz_id, image_data=image_base64)
 
 
-@website.route('/take_quiz', methods=['GET'])
-def take_quiz_route():
+@website.route('/take-quiz', methods=['GET'])
+def take_quiz():
     # Retrieve quiz ID from the request URL
     quiz_id = request.args.get('quiz_id')
 
@@ -117,13 +117,13 @@ def take_quiz_route():
     cursor.close()
 
     # Render the template with quiz details and questions
-    return render_template('take_quiz.html', quiz_id = quiz_id, quiz_name=quiz_name, quiz_desc=quiz_desc, questions=questions)
+    return render_template('quiz/take-quiz.html', quiz_id = quiz_id, quiz_name=quiz_name, quiz_desc=quiz_desc, questions=questions)
 
 
 
 
 
-@website.route('/quiz_taking', methods=['GET', 'POST'])
+@website.route('/quiz-taking', methods=['GET', 'POST'])
 def quiz_taking():
     if request.method == 'POST' and session['role'] == 2:
         quiz_id = request.form.get('quiz_id')
@@ -231,7 +231,7 @@ def quiz_taking():
     # It will just contain a retry button, and if you get 100, there will be another button for returning to dashboard.
     return redirect(url_for('authenticate_user'))
 
-@website.route('/quiz_editing', methods=['GET', 'POST'])
+@website.route('/quiz-editing', methods=['GET', 'POST'])
 def quiz_editing():
     if session['role'] == 1:
         count = 0
@@ -316,10 +316,10 @@ def quiz_editing():
 
             return redirect(url_for('manage_quizzes'))
     else:
-        render_template('prohibited.html')
+        render_template('error/prohibited.html')
 
-@website.route('/deleteQuiz/<int:quiz_id>', methods=['GET'])
-def deleteQuiz_route(quiz_id):
+@website.route('/delete-quiz/<int:quiz_id>', methods=['GET'])
+def delete_quiz_route(quiz_id):
     cursor = database.conn.cursor()
     cursor.execute("UPDATE QUIZZES SET IS_DELETED = 1 WHERE QUIZ_ID=?", (quiz_id,))
 
@@ -341,8 +341,8 @@ def deleteQuiz_route(quiz_id):
 
     return redirect(url_for('manage_quizzes'))
 
-@website.route('/editQuiz/<int:quiz_id>', methods=['GET'])
-def editQuiz_route(quiz_id):
+@website.route('/edit-quiz/<int:quiz_id>', methods=['GET'])
+def edit_quiz_route(quiz_id):
     cursor = database.conn.cursor()
     cursor.execute("UPDATE QUIZZES SET IS_DELETED = 1 WHERE QUIZ_ID=?", (quiz_id,))
 

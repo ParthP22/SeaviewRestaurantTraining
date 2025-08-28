@@ -14,7 +14,7 @@ import database
 from routes import website
 
 
-@website.route('/register_employee')
+@website.route('/register-employee')
 def register_employee():
     if session['role'] == 1:
         cursor = database.conn.cursor()
@@ -28,11 +28,11 @@ def register_employee():
         managers = cursor.fetchall()
         print(managers)
 
-        return render_template('register_employee.html', roles=roles, managers=managers)
+        return render_template('manager/register-employee.html', roles=roles, managers=managers)
     else:
-        return render_template('prohibited.html')
+        return render_template('error/prohibited.html')
 
-@website.route('/manage_employee')
+@website.route('/manage-employee')
 def manage_employee():
     if session['role'] == 1:
         cursor = database.conn.cursor()
@@ -41,9 +41,9 @@ def manage_employee():
                        'FROM Users u JOIN Roles r ON u.ROLE_ID = r.ID LEFT JOIN Users m  ON u.MANAGER_ID = m.ID')
         users = cursor.fetchall()
 
-        return render_template('manage_employee.html', users = users)
+        return render_template('manager/manage-employee.html', users = users)
     else:
-        return render_template('prohibited.html')
+        return render_template('error/prohibited.html')
 
 
 @website.route('/registration', methods=['GET', 'POST'])
@@ -84,7 +84,7 @@ def registration():
                 'SELECT u.ID, u.USERNAME, u.FIRST_NAME || \' \' || u.LAST_NAME, u.EMAIL, r.ROLE_NAME, u.MANAGER_ID, m.FIRST_NAME || \' \' || m.LAST_NAME '
                 'FROM Users u JOIN Roles r ON u.ROLE_ID = r.ID LEFT JOIN Users m  ON u.MANAGER_ID = m.ID')
             users = cursor.fetchall()
-            return render_template('manage_employee.html', users=users)
+            return render_template('manager/manage-employee.html', users=users)
 
 
     elif request.method == 'POST':
@@ -93,7 +93,7 @@ def registration():
     # Show registration form with message (if any)
     cursor.execute('SELECT * FROM Roles ')
     roles = cursor.fetchall()
-    return render_template('register_employee.html', roles=roles, msg=msg)
+    return render_template('manager/register-employee.html', roles=roles, msg=msg)
 
 def delete_item(item_id):
     cursor = database.conn.cursor()
@@ -117,7 +117,7 @@ def restrict_account(item_id):
         cursor.execute("UPDATE Users SET IsRestricted = ? WHERE id = ?", (value, item_id,))
         conn.commit()
 
-@website.route('/edit_employee/<int:item_id>', methods=['GET', 'POST'])
+@website.route('/edit-employee/<int:item_id>', methods=['GET', 'POST'])
 def edit_employee(item_id):
     cursor = database.conn.cursor()
     # If it's a POST request, update the role
@@ -194,5 +194,5 @@ def edit_employee(item_id):
 
 
 
-    return render_template('edit_employee.html', curr_role_id=curr_role[0], curr_manager_id=curr_manager[0], roles=roles, managers=managers, user_id=item_id)
+    return render_template('manager/edit-employee.html', curr_role_id=curr_role[0], curr_manager_id=curr_manager[0], roles=roles, managers=managers, user_id=item_id)
 

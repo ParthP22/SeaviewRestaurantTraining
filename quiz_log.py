@@ -7,7 +7,7 @@ from flask import Flask, render_template, redirect, url_for, session, request
 import database
 from routes import website
 
-@website.route('/quiz_log', methods=['GET', 'POST'])
+@website.route('/quiz-log', methods=['GET', 'POST'])
 def quiz_log():
     if session['role'] == 1:
         cursor = database.conn.cursor()
@@ -20,7 +20,7 @@ def quiz_log():
             f"WHERE log.QUIZ_ID = q.QUIZ_ID AND log.EMPLOYEE_ID = u.ID "
             f"ORDER BY {sort_by} {order}")
         history_logs = cursor.fetchall()
-        return render_template('quiz_log.html', history_logs=history_logs, sort_by=sort_by, order=order)
+        return render_template('quiz/quiz-log.html', history_logs=history_logs, sort_by=sort_by, order=order)
     else:
-        return render_template('prohibited.html')
+        return render_template('error/prohibited.html')
 

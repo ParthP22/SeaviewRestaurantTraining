@@ -6,7 +6,7 @@ import database
 from routes import website
 
 
-@website.route('/take_quiz', methods=['GET'])
+@website.route('/take-quiz', methods=['GET'])
 def take_quiz():
     quiz_id = request.args.get('id')
     # Connect to SQLite database
@@ -24,4 +24,4 @@ def take_quiz():
 
     cursor.close()
 
-    return render_template('take_quiz.html', questions=questions)
+    return render_template('quiz/take-quiz.html', questions=questions)

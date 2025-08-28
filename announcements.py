@@ -64,10 +64,10 @@ def announcements():
             cursor.execute('INSERT INTO ANNOUNCEMENTS(MESSAGE_ID, SUBJECT, MESSAGE, DATE_TIME, EMPLOYEE_ID) VALUES (?, ?, ?, ?, ?)', (curr_message_id + 1,subject,db_body,datetime.datetime.now(),session['id']))
             database.conn.commit()
             # return redirect(url_for('announcements'))
-            return render_template('announcements.html', status=status)
+            return render_template('manager/announcements.html', status=status)
 
         else:
-            return render_template('announcements.html', status=status)
+            return render_template('manager/announcements.html', status=status)
 
     else:
         # employee/basic user page
@@ -76,6 +76,6 @@ def announcements():
                        'ON a.EMPLOYEE_ID = e.ID '
                        'ORDER BY MESSAGE_ID DESC ')
         emails = cursor.fetchall()
-        return render_template('announcements_history.html', emails=emails)
+        return render_template('employee/announcements-history.html', emails=emails)
 
 

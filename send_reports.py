@@ -134,7 +134,7 @@ def send_submission_report(subject, recipient_email, body, filename):
 
 
 # This is for the manager dashboard
-@website.route('/progress_report/<int:user_id>', methods=['GET'])
+@website.route('/progress-report/<int:user_id>', methods=['GET'])
 def send_report(user_id):
     cursor = database.conn.cursor()
     cursor.execute('SELECT EMAIL FROM USERS WHERE ID=? ', (session['id'],))
@@ -151,7 +151,7 @@ def send_report(user_id):
         subject = f"{first_name} {last_name}'s Progress Report"
         body = f"Attached below is an image displaying a bar graph of {first_name} {last_name}'s progress."
         send_progress_report(subject, body, manager_email)
-    return redirect('/manage_employee')
+    return redirect('/manage-employee')
 
 
 def create_double_bar_graph(user_id):

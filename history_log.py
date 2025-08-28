@@ -7,8 +7,8 @@ from flask import Flask, render_template, redirect, url_for, session, request
 import database
 from routes import website
 
-@website.route('/historyLog', methods=['GET', 'POST'])
-def historyLog():
+@website.route('/history-log', methods=['GET', 'POST'])
+def history_log():
     if session['role'] == 1:
         cursor = database.conn.cursor()
         sort_by = request.args.get('sort', 'ATTEMPT_ID')  # Default sort is by 'ATTEMPT_ID'
@@ -23,7 +23,7 @@ def historyLog():
                 """
         cursor.execute(query)
         history_logs = cursor.fetchall()  # Fetching all records from the query execution
-        return render_template('historyLog.html', history_logs=history_logs, sort_by=sort_by, order=order)
+        return render_template('manager/history-log.html', history_logs=history_logs, sort_by=sort_by, order=order)
     else:
-        return render_template('prohibited.html')
+        return render_template('error/prohibited.html')
 

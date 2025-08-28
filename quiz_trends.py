@@ -6,7 +6,7 @@ from flask import Flask, render_template, redirect, url_for, session, request
 import database
 from routes import website
 
-@website.route('/quiz_trends', methods=['GET', 'POST'])
+@website.route('/quiz-trends', methods=['GET', 'POST'])
 def quiz_trends():
 
     cursor = database.conn.cursor()
@@ -49,4 +49,4 @@ def quiz_trends():
         quizzes.append(quiz_data)
 
 
-    return render_template('quiz_trends.html', quizzes=quizzes, quiz_names=quiz_names)
+    return render_template('quiz/quiz-trends.html', quizzes=quizzes, quiz_names=quiz_names)

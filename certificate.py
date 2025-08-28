@@ -41,7 +41,7 @@ def generate_certificate():
         cursor.execute('SELECT First_Name, Last_Name FROM Users WHERE Username=? AND Password=?', (session['username'], session['password'],))
 
         user_profile = cursor.fetchone()
-        certificate = render_template('certificate.html', user_profile=user_profile, date=date.today())
+        certificate = render_template('quiz/certificate.html', user_profile=user_profile, date=date.today())
         cert_pdf = pdfkit.from_string(certificate, False)
 
         with open('certificate.pdf', 'wb') as f:
