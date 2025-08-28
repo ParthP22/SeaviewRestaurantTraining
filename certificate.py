@@ -1,12 +1,13 @@
 import os
-import re
-from datetime import datetime, date
+from datetime import date
 from email.mime.application import MIMEApplication
-
-from flask import Flask, render_template, redirect, url_for, session, request, make_response
+from flask import render_template, session
 import database
-from routes import website
 import pdfkit
+import smtplib
+import ssl
+import credentials
+from email.mime.multipart import MIMEMultipart
 
 def generate_certificate():
     cursor = database.conn.cursor()
@@ -50,11 +51,6 @@ def generate_certificate():
         send_certificate()
 
 
-import smtplib
-import ssl
-import credentials
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 def send_certificate():
 
     cursor = database.conn.cursor()

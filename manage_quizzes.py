@@ -3,17 +3,10 @@
 # such as being able to register new quizzes, edit existing quizzes, and delete quizzes if need be.
 import base64
 import datetime
-import io
-import smtplib
-
-from PIL import Image
-from flask import Flask, render_template, redirect, url_for, session, request
+from flask import render_template, redirect, url_for, session, request
 import database
 import send_reports
 from routes import website
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
 
 
 

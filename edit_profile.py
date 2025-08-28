@@ -1,8 +1,7 @@
 # Author(s): Ahmed Malik
 # This file contains the code that is used to edit the users profile page
 
-
-from flask import Flask, render_template, redirect, url_for, session, request, flash
+from flask import render_template, redirect, url_for, session, request, flash
 import database
 from routes import website
 

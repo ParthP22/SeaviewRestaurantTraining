@@ -1,18 +1,16 @@
 # Author(s): Parth Patel
 
-import datetime
 import os
-from datetime import date
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import numpy as np
-from flask import Flask, render_template, redirect, url_for, session, request
+from flask import redirect, session
 from matplotlib import pyplot as plt
 
-import database, smtplib, ssl, credentials, datetime
+import database, smtplib, ssl, credentials
 from routes import website
 
 import csv

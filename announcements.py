@@ -2,9 +2,8 @@
 # This file contains the code that is required to be able to successfully send an email
 # through seaviewrestauranttraining@outlook.com on the announcements page.
 import datetime
-from datetime import date
 
-from flask import Flask, render_template, redirect, url_for, session, request
+from flask import render_template, session, request
 import database, smtplib, ssl, credentials, datetime
 from routes import website
 

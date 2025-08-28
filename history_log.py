@@ -1,9 +1,7 @@
 # Author(s): Ahmed Malik
 # This file contains the code that is used to view the history log,
 
-
-import re
-from flask import Flask, render_template, redirect, url_for, session, request
+from flask import render_template, session, request
 import database
 from routes import website
 

@@ -1,8 +1,6 @@
 # Author(s): Parth Patel
 
-import datetime
-
-from flask import Flask, render_template, redirect, url_for, session, request
+from flask import render_template
 import database
 from routes import website
 

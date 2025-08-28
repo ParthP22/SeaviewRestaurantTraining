@@ -1,7 +1,7 @@
 # Author(s): Ryan Minneo, Ryan Nguyen
 # This file contains the code that allows the employees to take quizzes
 
-from flask import Flask, render_template, redirect, url_for, session, request
+from flask import render_template, request
 import database
 from routes import website
 

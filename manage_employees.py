@@ -3,13 +3,8 @@
 # such as being able to register new employees.
 
 import re
-import smtplib
 import sqlite3
-import ssl
-
-from flask import Flask, render_template, redirect, url_for, session, request
-
-import credentials
+from flask import render_template, redirect, url_for, session, request
 import database
 from routes import website
 
