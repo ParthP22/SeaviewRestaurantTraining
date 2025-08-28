@@ -5,7 +5,7 @@
 
 from flask import Flask, render_template, redirect, url_for, session, request
 
-import certifcate
+import certificate
 import database
 import datetime
 from routes import website
@@ -145,7 +145,7 @@ def authenticate_user():
             query = cursor.fetchone()
             is_completed = query[0]
             if is_completed == 0:
-                certifcate.generate_certificate()
+                certificate.generate_certificate()
             return render_employee_dashboard(account, cursor)
 
     # Show the login form with message (if any)
