@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block title %}Quiz Material - Seaview Training{% endblock %}
+
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0px;
+            padding: 0;
+            justify-content: center;
+            align-items: center;
+        }
+        iframe {
+            width: 80%;
+            height: 600px;
+            display: block;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.1);
+        }
+        .question {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        input[type="text"],
+        select {
+            width: calc(100% - 22px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-container button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+        .back-button {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .visual-arrow {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .visual-arrow .arrow {
+            font-size: 24px;
+        }
+        .arrow-container {
+            display: flex;
+            justify-content: space-between;
+            width: 200px; /* Adjust this width as needed */
+            margin: 0 auto;
+        }
+        .arrow-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ quiz_name }}</h1>
+    <p>{{ quiz_desc }}</p>
+
+    <!-- Display the image if it exists -->
+    <iframe src="data:application/pdf;base64,{{ image_data }}" >
+        <p>Alternative text - include a link <a href="data:application/pdf;base64,{{ image_data }}">to the PDF!</a></p>
+    </iframe>
+
+    <div class="button-container">
+        <div class="back-button">
+            <button onclick="goBack()">Go Back</button>
+        </div>
+        <button onclick="window.location.href='/take_quiz?quiz_id={{ quiz_id }}'">Continue</button>
+    </div>
+
+    <div class="arrow-container">
+        <div class="arrow-wrapper">
+            <div class="visual-arrow">
+                <span class="arrow">&#8592;</span>
+            </div>
+        </div>
+        <div class="arrow-wrapper">
+            <div class="visual-arrow">
+                <span class="arrow">&#8594;</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+{% endblock %}
+</html>

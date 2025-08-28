@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 100px;
+            padding: 0;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.1);
+        }
+        .question {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        input[type="text"],
+        select {
+            width: calc(100% - 22px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ quiz_name }}</h1>
+    <p>{{ quiz_desc }}</p>
+
+    <form id="quiz_form" action = "{{ url_for('quiz_taking') }}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name = "quiz_id" value = "{{ quiz_id }}">
+        {% for question in questions %}
+        <div class="question">
+            <p>{{ loop.index }}. {{ question.question_text }}</p>
+            <ul>
+                {% for option in question.options %}
+                <li>
+                    <input type="radio" id="option_{{ question.id }}_{{ option.option_id }}" name="question_{{ question.id }}" value="{{ option.option_id }}">
+                    <label for="option_{{ question.id }}_{{ option.option_id }}">{{ option.option_text }}</label>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+        <input type="submit" onclick="submitQuiz()">
+    </form>
+
+    <script>
+        function submitQuiz() {
+
+
+            window.location.href = "dashboard";
+        }
+
+    </script>
+</body>
+</html>

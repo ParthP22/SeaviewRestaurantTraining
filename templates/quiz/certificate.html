@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Completion</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+        .certificate {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: 'Parisienne', cursive; /* Use Google Font */
+            border: 8px solid #007bff; /* Seaview Blue border */
+            border-radius: 20px; /* Rounded corners */
+        }
+        .certificate-header {
+            text-align: center;
+        }
+        .certificate-header h1 {
+            margin-bottom: 20px;
+        }
+        .certificate-body {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .employee-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .completion-text {
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <div class="certificate-header">
+            <h1 class="display-4">Certificate of Completion</h1>
+        </div>
+        <div class="certificate-body">
+            <p class="employee-name">This is to certify that <span id="first-name">{{ user_profile[0] }}</span> <span id="last-name">{{ user_profile[1] }}</span></p>
+            <p class="completion-text">has successfully completed all quizzes on {{date}}.</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
