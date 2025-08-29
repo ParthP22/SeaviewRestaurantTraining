@@ -6,7 +6,6 @@ import re
 import sqlite3
 from flask import render_template, redirect, url_for, session, request
 import database
-from routes import website
 from . import manager_bp
 
 @manager_bp.route('/register-employee')

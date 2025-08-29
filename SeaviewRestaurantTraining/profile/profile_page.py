@@ -3,7 +3,6 @@
 
 from flask import render_template, session
 import database
-from routes import website
 from . import profile_bp
 
 @profile_bp.route('/profile-page', methods=['GET', 'POST'])

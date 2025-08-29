@@ -1,8 +1,7 @@
-from flask import render_template, redirect, url_for, session, request
+from flask import render_template, redirect, url_for, session
 import certificate
 import database
 import datetime
-from routes import website
 from . import employee_bp
 
 def render_employee_dashboard(account, cursor):

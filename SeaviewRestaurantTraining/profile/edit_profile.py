@@ -3,7 +3,6 @@
 
 from flask import render_template, redirect, url_for, session, request, flash
 import database
-from routes import website
 from . import profile_bp
 
 @profile_bp.route('/edit-profile', methods=['GET', 'POST'])

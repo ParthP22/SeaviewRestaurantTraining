@@ -4,7 +4,6 @@
 
 from flask import render_template, session, request
 import database
-from routes import website
 from . import quiz_bp
 
 @quiz_bp.route('/quiz-log', methods=['GET', 'POST'])

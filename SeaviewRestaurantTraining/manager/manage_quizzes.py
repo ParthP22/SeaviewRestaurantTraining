@@ -6,7 +6,6 @@ import datetime
 from flask import render_template, redirect, url_for, session, request
 import database
 import SeaviewRestaurantTraining.manager.send_reports as send_reports
-from routes import website
 from . import manager_bp
 
 @manager_bp.route('/manage-quizzes')

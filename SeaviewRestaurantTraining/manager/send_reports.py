@@ -11,7 +11,6 @@ from flask import redirect, session
 from matplotlib import pyplot as plt
 
 import database, smtplib, ssl, credentials
-from routes import website
 
 import csv
 

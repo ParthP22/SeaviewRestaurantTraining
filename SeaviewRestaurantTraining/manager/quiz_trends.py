@@ -2,7 +2,6 @@
 
 from flask import render_template
 import database
-from routes import website
 from . import manager_bp
 
 @manager_bp.route('/quiz-trends', methods=['GET', 'POST'])
