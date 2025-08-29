@@ -4,17 +4,17 @@
 
 
 from flask import render_template, redirect, url_for, session, request
-import SeaviewRestaurantTraining.quiz.certificate as certificate
+import SeaviewRestaurantTraining.employee.certificate as certificate
 import database
 import datetime
 from routes import website
-from . import session_handling_bp
+from . import auth_bp
 
 
-@session_handling_bp.route('/show-login')
+@auth_bp.route('/show-login')
 def show_login():
     return render_template('login.html')
-@session_handling_bp.route('/login', methods=['POST'])
+@auth_bp.route('/login', methods=['POST'])
 def login():
     # Initialize message variable
     msg = ''
@@ -39,17 +39,23 @@ def login():
             return render_template('login.html', msg=msg)
 
         # After successful login, redirect to dashboard
-        return redirect(url_for('authenticate_user'))
+        if session['role'] == 1:
+            return redirect(url_for('manager.authenticate_manager'))
+        else:
+            return redirect(url_for('employee.authenticate_employee'))
     else:
         msg = 'Incorrect username/password!'
         return render_template('login.html', msg=msg)
 
-@session_handling_bp.route('/welcome', methods=['GET', 'POST'])
+@auth_bp.route('/welcome', methods=['GET', 'POST'])
 def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
     session.pop('password', None)
-    return render_template('index.html')
+    try:
+        return render_template('index.html')
+    except Exception as e:
+        print("Couldn't load welcome page: " + e)
 
 # def render_employee_dashboard(account, cursor):
 #     cursor.execute('SELECT NUM_CORRECT, NUM_INCORRECT, MAX(ATTEMPT_NUMBER) '
