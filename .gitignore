@@ -1,7 +1,7 @@
 /.venv/
 /.idea/
 /credentials.py
-/__pycache__/
+**/__pycache__/
 /Seaview_DB.db-journal
 /.DS_Store
 /static/.DS_Store
