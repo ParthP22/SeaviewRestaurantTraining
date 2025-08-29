@@ -5,7 +5,6 @@ import datetime
 
 from flask import render_template, session, request
 import database, smtplib, ssl, credentials, datetime
-from routes import website
 from . import announcement_bp
 
 # This one is used for the announcements function
