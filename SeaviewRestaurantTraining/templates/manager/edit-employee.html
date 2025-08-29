@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container">
     <h2>Edit Role for User ID: {{ user_id }}</h2>
-    <form method="POST" action="{{ url_for('edit_employee', item_id=user_id) }}">
+    <form method="POST" action="{{ url_for('manager.edit_employee', item_id=user_id) }}">
       <div class="form-group">
         <label for="role">Select Role:</label>
         <select name="role" id="role" class="form-control">

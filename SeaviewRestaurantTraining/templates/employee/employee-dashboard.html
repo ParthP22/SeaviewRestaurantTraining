@@ -65,7 +65,7 @@
             <progress class="progress-bar" value="{{progress}}" max="{{total_questions}}"> {{progress}} </progress>
             <br/>
 <!--            <span class="progress-value">{{percent}}</span>-->
-            <a href="{{ url_for('announcements') }}" class="btn btn-primary btn-lg btn-block">Announcements</a>
+            <a href="{{ url_for('announcement.announcements') }}" class="btn btn-primary btn-lg btn-block">Announcements</a>
         </div>
     </div>
     <br/>
@@ -86,7 +86,7 @@
             {% for quiz in quizzes %}
                 {% if quiz[5] == 1 and quiz[7] == 0 %}
                     <tr>
-                        <td> <a href="{{ url_for('quiz_material') }}?id={{ quiz[0] }}" class="nav-link" style="word-wrap: break-word">{{quiz[1]}} - {{quiz[6]}} </a> </td>
+                        <td> <a href="{{ url_for('manager.quiz_material') }}?id={{ quiz[0] }}" class="nav-link" style="word-wrap: break-word">{{quiz[1]}} - {{quiz[6]}} </a> </td>
                         {% if quiz[8] > current_date %}
                             <td class="not-past-due">{{ quiz[8] }}</td>
                         {% else %}
