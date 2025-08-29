@@ -15,6 +15,7 @@ from routes import website
 
 import csv
 
+from . import manager_bp
 
 # This is for after you submit a quiz
 def quiz_submission_report(user_id, attempt_id):
@@ -132,7 +133,7 @@ def send_submission_report(subject, recipient_email, body, filename):
 
 
 # This is for the manager dashboard
-@website.route('/progress-report/<int:user_id>', methods=['GET'])
+@manager_bp.route('/progress-report/<int:user_id>', methods=['GET'])
 def send_report(user_id):
     cursor = database.conn.cursor()
     cursor.execute('SELECT EMAIL FROM USERS WHERE ID=? ', (session['id'],))

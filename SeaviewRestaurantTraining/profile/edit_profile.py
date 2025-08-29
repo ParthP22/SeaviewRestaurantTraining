@@ -4,8 +4,9 @@
 from flask import render_template, redirect, url_for, session, request, flash
 import database
 from routes import website
+from . import profile_bp
 
-@website.route('/edit-profile', methods=['GET', 'POST'])
+@profile_bp.route('/edit-profile', methods=['GET', 'POST'])
 def edit_profile():
     if request.method == 'POST':
         # This block will run when the form is submitted

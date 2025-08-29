@@ -4,8 +4,9 @@
 from flask import render_template, session
 import database
 from routes import website
+from . import profile_bp
 
-@website.route('/profile-page', methods=['GET', 'POST'])
+@profile_bp.route('/profile-page', methods=['GET', 'POST'])
 def profile_page():
     cursor = database.conn.cursor()
     cursor.execute('SELECT Username, Password, Email, First_Name, Last_Name FROM Users WHERE Username=? AND Password=?', (session['username'], session['password'],))

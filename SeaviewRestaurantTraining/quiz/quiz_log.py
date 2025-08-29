@@ -5,8 +5,9 @@
 from flask import render_template, session, request
 import database
 from routes import website
+from . import quiz_bp
 
-@website.route('/quiz-log', methods=['GET', 'POST'])
+@quiz_bp.route('/quiz-log', methods=['GET', 'POST'])
 def quiz_log():
     if session['role'] == 1:
         cursor = database.conn.cursor()

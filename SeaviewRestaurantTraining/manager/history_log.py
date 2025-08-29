@@ -4,8 +4,10 @@
 from flask import render_template, session, request
 import database
 from routes import website
+from . import manager_bp
 
-@website.route('/history-log', methods=['GET', 'POST'])
+
+@manager_bp.route('/history-log', methods=['GET', 'POST'])
 def history_log():
     if session['role'] == 1:
         cursor = database.conn.cursor()

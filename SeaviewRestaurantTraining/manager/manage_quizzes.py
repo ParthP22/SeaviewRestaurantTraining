@@ -7,10 +7,9 @@ from flask import render_template, redirect, url_for, session, request
 import database
 import SeaviewRestaurantTraining.manager.send_reports as send_reports
 from routes import website
+from . import manager_bp
 
-
-
-@website.route('/manage-quizzes')
+@manager_bp.route('/manage-quizzes')
 def manage_quizzes():
     if session['role'] == 1:
         cursor = database.conn.cursor()
@@ -25,7 +24,7 @@ def manage_quizzes():
         return render_template('error/prohibited.html')
 
 #Routes quiz list to the quiz editor
-@website.route('/quiz-editor')
+@manager_bp.route('/quiz-editor')
 def quiz_editor():
     if session['role'] == 1:
         quiz_id = request.args.get('quiz_id')
@@ -57,7 +56,7 @@ def quiz_editor():
     else:
         return render_template('error/prohibited.html')
 
-@website.route('/quiz-material', methods=['GET', 'POST'])
+@manager_bp.route('/quiz-material', methods=['GET', 'POST'])
 def quiz_material():
     quiz_id = request.args.get('id')
 
@@ -76,7 +75,7 @@ def quiz_material():
     return render_template('quiz/quiz-material.html', quiz_id=quiz_id, image_data=image_base64)
 
 
-@website.route('/take-quiz', methods=['GET'])
+@manager_bp.route('/take-quiz', methods=['GET'])
 def take_quiz():
     # Retrieve quiz ID from the request URL
     quiz_id = request.args.get('quiz_id')
@@ -116,7 +115,7 @@ def take_quiz():
 
 
 
-@website.route('/quiz-taking', methods=['GET', 'POST'])
+@manager_bp.route('/quiz-taking', methods=['GET', 'POST'])
 def quiz_taking():
     if request.method == 'POST' and session['role'] == 2:
         quiz_id = request.form.get('quiz_id')
@@ -224,7 +223,7 @@ def quiz_taking():
     # It will just contain a retry button, and if you get 100, there will be another button for returning to dashboard.
     return redirect(url_for('authenticate_user'))
 
-@website.route('/quiz-editing', methods=['GET', 'POST'])
+@manager_bp.route('/quiz-editing', methods=['GET', 'POST'])
 def quiz_editing():
     if session['role'] == 1:
         count = 0
@@ -311,7 +310,7 @@ def quiz_editing():
     else:
         render_template('error/prohibited.html')
 
-@website.route('/delete-quiz/<int:quiz_id>', methods=['GET'])
+@manager_bp.route('/delete-quiz/<int:quiz_id>', methods=['GET'])
 def delete_quiz_route(quiz_id):
     cursor = database.conn.cursor()
     cursor.execute("UPDATE QUIZZES SET IS_DELETED = 1 WHERE QUIZ_ID=?", (quiz_id,))
@@ -334,7 +333,7 @@ def delete_quiz_route(quiz_id):
 
     return redirect(url_for('manage_quizzes'))
 
-@website.route('/edit-quiz/<int:quiz_id>', methods=['GET'])
+@manager_bp.route('/edit-quiz/<int:quiz_id>', methods=['GET'])
 def edit_quiz_route(quiz_id):
     cursor = database.conn.cursor()
     cursor.execute("UPDATE QUIZZES SET IS_DELETED = 1 WHERE QUIZ_ID=?", (quiz_id,))

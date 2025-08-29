@@ -1,11 +1,11 @@
 from flask import render_template, redirect, url_for, session, request
-import SeaviewRestaurantTraining.quiz.certificate as certificate
+import SeaviewRestaurantTraining.employee.certificate as certificate
 import database
 from routes import website
 from . import manager_bp
 
 @manager_bp.route('/dashboard', methods=['GET', 'POST'])
-def authenticate_user():
+def authenticate_manager():
     msg = ''
     # Check if "username" and "password" POST requests exist (user submitted form)
     account = None
@@ -17,4 +17,4 @@ def authenticate_user():
             return render_template('manager/manager-dashboard.html')
 
     # Show the login form with message (if any)
-    return redirect(url_for('login'))
+    return redirect(url_for('auth.login'))

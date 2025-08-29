@@ -3,8 +3,9 @@
 from flask import render_template
 import database
 from routes import website
+from . import manager_bp
 
-@website.route('/quiz-trends', methods=['GET', 'POST'])
+@manager_bp.route('/quiz-trends', methods=['GET', 'POST'])
 def quiz_trends():
 
     cursor = database.conn.cursor()

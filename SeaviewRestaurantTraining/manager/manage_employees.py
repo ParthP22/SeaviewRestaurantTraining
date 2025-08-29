@@ -7,9 +7,9 @@ import sqlite3
 from flask import render_template, redirect, url_for, session, request
 import database
 from routes import website
+from . import manager_bp
 
-
-@website.route('/register-employee')
+@manager_bp.route('/register-employee')
 def register_employee():
     if session['role'] == 1:
         cursor = database.conn.cursor()
@@ -27,7 +27,7 @@ def register_employee():
     else:
         return render_template('error/prohibited.html')
 
-@website.route('/manage-employee')
+@manager_bp.route('/manage-employee')
 def manage_employee():
     if session['role'] == 1:
         cursor = database.conn.cursor()
@@ -41,7 +41,7 @@ def manage_employee():
         return render_template('error/prohibited.html')
 
 
-@website.route('/registration', methods=['GET', 'POST'])
+@manager_bp.route('/registration', methods=['GET', 'POST'])
 def registration():
     msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
@@ -95,12 +95,12 @@ def delete_item(item_id):
     cursor.execute("DELETE FROM Users WHERE id=?", (item_id,))
     database.conn.commit()
 
-@website.route('/delete/<int:item_id>', methods=['GET'])
+@manager_bp.route('/delete/<int:item_id>', methods=['GET'])
 def delete_route(item_id):
     delete_item(item_id)
     return redirect(url_for('manage_employee'))
 
-@website.route('/restrict/<int:item_id>', methods=['GET'])
+@manager_bp.route('/restrict/<int:item_id>', methods=['GET'])
 def restrict_route(item_id):
     restrict_account(item_id)
     return redirect(url_for('manage_employee'))
@@ -112,7 +112,7 @@ def restrict_account(item_id):
         cursor.execute("UPDATE Users SET IsRestricted = ? WHERE id = ?", (value, item_id,))
         conn.commit()
 
-@website.route('/edit-employee/<int:item_id>', methods=['GET', 'POST'])
+@manager_bp.route('/edit-employee/<int:item_id>', methods=['GET', 'POST'])
 def edit_employee(item_id):
     cursor = database.conn.cursor()
     # If it's a POST request, update the role

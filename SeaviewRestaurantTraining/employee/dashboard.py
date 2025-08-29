@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, session, request
-import SeaviewRestaurantTraining.quiz.certificate as certificate
+import certificate
 import database
 import datetime
 from routes import website
@@ -83,7 +83,7 @@ def render_employee_dashboard(account, cursor):
     return render_template('employee/employee-dashboard.html', progress=total_correct, total_questions=total_questions, quizzes=quizzes, percent=percent, num_correct=num_correct, num_incorrect=num_incorrect, quiz_list=quiz_list, current_date = formatted_current_datetime)
 
 @employee_bp.route('/dashboard', methods=['GET', 'POST'])
-def authenticate_user():
+def authenticate_employee():
     msg = ''
     # Check if "username" and "password" POST requests exist (user submitted form)
     account = None

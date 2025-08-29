@@ -4,9 +4,9 @@
 from flask import render_template, request
 import database
 from routes import website
+from . import quiz_bp
 
-
-@website.route('/take-quiz', methods=['GET'])
+@quiz_bp.route('/take-quiz', methods=['GET'])
 def take_quiz():
     quiz_id = request.args.get('id')
     # Connect to SQLite database
