@@ -8,6 +8,7 @@ import smtplib
 import ssl
 import credentials
 from email.mime.multipart import MIMEMultipart
+from . import employee_bp
 
 def generate_certificate():
     cursor = database.conn.cursor()

@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, session
-import certificate
+from .certificate import generate_certificate
 import database
 import datetime
 from . import employee_bp
@@ -95,7 +95,7 @@ def authenticate_employee():
             query = cursor.fetchone()
             is_completed = query[0]
             if is_completed == 0:
-                certificate.generate_certificate()
+                generate_certificate()
             return render_employee_dashboard(account, cursor)
 
     # Show the login form with message (if any)
