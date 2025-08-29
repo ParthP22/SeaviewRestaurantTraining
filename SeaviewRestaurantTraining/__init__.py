@@ -1,5 +1,7 @@
 import secrets
-from flask import Flask
+from flask import Flask, redirect, url_for
+
+
 
 def create_secret_key(length=32):
     return secrets.token_hex(length)
@@ -25,5 +27,9 @@ def create_app():
     app.register_blueprint(employee_bp)
     app.register_blueprint(manager_bp)
     app.register_blueprint(quiz_bp)
+
+    @app.route("/")
+    def index():
+        return redirect(url_for("welcome.welcome"))
 
     return app
