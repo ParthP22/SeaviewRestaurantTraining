@@ -7,17 +7,17 @@ def create_secret_key(length=32):
 
 website.secret_key = create_secret_key()
 
-from session_handling import *
-from announcements import *
-from manage_employees import *
-from manage_quizzes import *
-from history_log import *
-from profile_page import *
-from quiz_log import *
-from edit_profile import *
-from quiz_trends import *
-from send_reports import *
+from SeaviewRestaurantTraining.auth.session_handling import *
+from SeaviewRestaurantTraining.announcement.announcements import *
+from SeaviewRestaurantTraining.manager.manage_employees import *
+from SeaviewRestaurantTraining.manager.manage_quizzes import *
+from SeaviewRestaurantTraining.manager.history_log import *
+from SeaviewRestaurantTraining.profile.profile_page import *
+from SeaviewRestaurantTraining.quiz.quiz_log import *
+from SeaviewRestaurantTraining.profile.edit_profile import *
+from SeaviewRestaurantTraining.manager.quiz_trends import *
+from SeaviewRestaurantTraining.manager.send_reports import *
 
 @website.route('/')
 def Welcome():
-    return render_template('welcome.html')
+    return render_template('index.html')
