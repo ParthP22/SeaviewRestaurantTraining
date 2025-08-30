@@ -44,7 +44,7 @@ def login():
         msg = 'Incorrect username/password!'
         return render_template('login.html', msg=msg)
 
-@auth_bp.route('/welcome', methods=['GET', 'POST'])
+@auth_bp.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
