@@ -17,6 +17,7 @@ def create_app():
     from .employee import employee_bp
     from .manager import manager_bp
     from .quiz import quiz_bp
+    from .profile import profile_bp
 
     # Register blueprints
     app.register_blueprint(welcome_bp)
@@ -25,6 +26,7 @@ def create_app():
     app.register_blueprint(employee_bp)
     app.register_blueprint(manager_bp)
     app.register_blueprint(quiz_bp)
+    app.register_blueprint(profile_bp)
 
     @app.route("/")
     def index():
