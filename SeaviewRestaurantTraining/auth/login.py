@@ -154,4 +154,10 @@ def logout():
 #     # Show the login form with message (if any)
 #     return redirect(url_for('login'))
 
-
+@auth_bp.route('/verify-role', methods=['GET', 'POST'])
+def verify_role():
+    if session['logged_in'] == True:
+        if session['role'] == 1:
+            return redirect(url_for('manager.authenticate_manager'))
+        else:
+            return redirect(url_for('employee.authenticate_employee'))
