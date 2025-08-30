@@ -50,7 +50,7 @@ def logout():
     session.pop('username', None)
     session.pop('password', None)
     try:
-        return render_template('index.html')
+        return redirect(url_for('homepage.welcome'))
     except Exception as e:
         print("Couldn't load welcome page: " + e)
 
