@@ -30,6 +30,6 @@ def create_app():
 
     @app.route("/")
     def index():
-        return redirect(url_for("welcome.welcome"))
+        return redirect(url_for("homepage.welcome"))
 
     return app
