@@ -49,6 +49,9 @@ def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
     session.pop('password', None)
+    session.pop('id', None)
+    session.pop('role', None)
+    session.pop('restricted', None)
     try:
         return redirect(url_for('homepage.welcome'))
     except Exception as e:
