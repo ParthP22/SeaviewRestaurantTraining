@@ -89,27 +89,21 @@ def registration():
     roles = cursor.fetchall()
     return render_template('manager/register-employee.html', roles=roles, msg=msg)
 
-def delete_item(item_id):
+
+@manager_bp.route('/delete/<int:item_id>', methods=['GET'])
+def delete_user(item_id):
     cursor = database.conn.cursor()
     cursor.execute("DELETE FROM Users WHERE id=?", (item_id,))
     database.conn.commit()
-
-@manager_bp.route('/delete/<int:item_id>', methods=['GET'])
-def delete_route(item_id):
-    delete_item(item_id)
     return redirect(url_for('manage_employee'))
 
 @manager_bp.route('/restrict/<int:item_id>', methods=['GET'])
-def restrict_route(item_id):
-    restrict_account(item_id)
-    return redirect(url_for('manage_employee'))
-
-def restrict_account(item_id):
-    with sqlite3.connect('./Seaview_DB.db') as conn:
-        cursor = conn.cursor()
-        value = 1
-        cursor.execute("UPDATE Users SET IsRestricted = ? WHERE id = ?", (value, item_id,))
-        conn.commit()
+def restrict_user(item_id):
+    cursor = database.conn.cursor()
+    value = 1
+    cursor.execute("UPDATE Users SET IsRestricted = ? WHERE id = ?", (value, item_id,))
+    database.conn.commit()
+    return redirect(url_for('manage_employee'))    
 
 @manager_bp.route('/edit-employee/<int:item_id>', methods=['GET', 'POST'])
 def edit_employee(item_id):
@@ -184,9 +178,6 @@ def edit_employee(item_id):
         managers.remove(you)
 
     managers.insert(0,curr_manager)
-
-
-
 
     return render_template('manager/edit-employee.html', curr_role_id=curr_role[0], curr_manager_id=curr_manager[0], roles=roles, managers=managers, user_id=item_id)
 
