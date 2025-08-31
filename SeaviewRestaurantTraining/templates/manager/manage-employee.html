@@ -32,10 +32,10 @@
                     <td>{{ user[4] }}</td>
                     <td>{{ user[5] }}</td>
                     <td>{{ user[6] }}</td>
-                    <td> <a href="/delete/{{ user[0] }}">Delete</a></td>
-                    <td> <a href="/progress_report/{{ user[0] }}">Receive Report</a></td>
-                    <td> <a href="/restrict/{{ user[0] }}">Restrict</a></td>
-                    <td> <a href="/edit_employee/{{ user[0] }}">Edit</a></td>
+                    <td> <a href="{{ url_for('manager.delete_user', item_id=user[0]) }}">Delete</a></td>
+                    <td> <a href="{{ url_for('manager.send_report', user_id=user[0]) }}">Receive Report</a></td>
+                    <td> <a href="{{ url_for('manager.restrict_user', item_id=user[0]) }}">Restrict</a></td>
+                    <td> <a href="{{ url_for('manager.edit_employee', item_id=user[0]) }}">Edit</a></td>
                 </tr>
             {% endfor %}
         </tbody>
