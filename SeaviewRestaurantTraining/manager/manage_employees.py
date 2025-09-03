@@ -119,7 +119,7 @@ def edit_employee(item_id):
         database.conn.commit()
         print(new_role_id)
         if new_role_id == '2' and item_id == session['id']:
-            return redirect(url_for('employee.authenticate_employee'))
+            return redirect(url_for('auth.logout'))
 
         else:
             return redirect(url_for('manager.manage_employee'))
