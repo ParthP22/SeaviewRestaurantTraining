@@ -100,6 +100,6 @@ def authenticate_employee():
             return render_employee_dashboard(account, cursor)
 
     # Show the login form with message (if any)
-    return redirect(url_for('login'))
+    return redirect(url_for('auth.login'))
 
 
