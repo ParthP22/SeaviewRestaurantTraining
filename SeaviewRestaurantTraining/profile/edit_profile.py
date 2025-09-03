@@ -27,7 +27,7 @@ def edit_profile():
 
 
         flash('Profile updated successfully.')
-        return redirect(url_for('profile_page'))
+        return redirect(url_for('profile.profile_page'))
 
     # This block will run for a GET request, displaying the form
     # Optionally, you can pre-fill the form based on current user data
