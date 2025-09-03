@@ -4,7 +4,7 @@ import datetime
 from flask import render_template, redirect, url_for, session, request
 import database
 from . import quiz_bp
-from SeaviewRestaurantTraining.enums import Role
+from SeaviewRestaurantTraining.enums import Role, QuizStatus
 
 #Routes quiz list to the quiz editor
 @quiz_bp.route('/quiz-editor')
@@ -68,12 +68,12 @@ def submit_quiz_edit():
             # quiz_id = request.form['quiz_id']
             # print("URL: ", request.url)
             # The first one handles quiz edits, while the second one handles quiz creation
-            quiz_id = request.form.get('quiz_id') or request.args.get('quiz_id')
+            quiz_id = request.form.get('quiz_id',type=int) or request.args.get('quiz_id',type=int)
             # print("Quiz ID: ?, Type: ?",(quiz_id,type(quiz_id)))
             quiz_name = request.form['quiz_name']
             quiz_desc = request.form['quiz_desc']
             material_name = request.form['material_name']
-            is_visible = 1 if request.form.get('isVisible') == '1' else 0
+            is_visible = QuizStatus.VISIBLE.value if (request.form.get('isVisible',type=int) == QuizStatus.VISIBLE.value) else QuizStatus.NOT_VISIBLE.value
             due_date = request.form['due_date']
 
             # Retrieve questions and answers dynamically
