@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-{% extends "base.html" %}
-{% block title %}Quiz Material - Seaview Training{% endblock %}
-
-{% block content %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -106,7 +102,7 @@
         <div class="back-button">
             <button onclick="goBack()">Go Back</button>
         </div>
-        <button onclick="window.location.href='/take_quiz?quiz_id={{ quiz_id }}'">Continue</button>
+        <button onclick="window.location.href='{{ url_for('quiz.take_quiz') }}?quiz_id={{ quiz_id }}'">Continue</button>
     </div>
 
     <div class="arrow-container">
@@ -128,5 +124,4 @@
         }
     </script>
 </body>
-{% endblock %}
 </html>
