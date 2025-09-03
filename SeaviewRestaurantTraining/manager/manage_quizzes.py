@@ -7,10 +7,11 @@ from flask import render_template, redirect, url_for, session, request
 import database
 import SeaviewRestaurantTraining.manager.send_reports as send_reports
 from . import manager_bp
+from enums import Role
 
 @manager_bp.route('/manage-quizzes')
 def manage_quizzes():
-    if session['role'] == 1:
+    if session['role'] == Role.MANAGER:
         cursor = database.conn.cursor()
 
         current_datetime = datetime.datetime.now()

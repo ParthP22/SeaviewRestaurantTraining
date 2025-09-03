@@ -6,7 +6,7 @@
 from flask import render_template, redirect, url_for, session, request
 import database
 from . import auth_bp
-
+from enums import AccountStatus, Role
 
 @auth_bp.route('/show-login')
 def show_login():
@@ -31,12 +31,12 @@ def login():
         session['role'] = account[6]
         session['restricted'] = account[8]
 
-        if session['restricted'] == 1:
+        if session['restricted'] == AccountStatus.RESTRICTED:
             msg = 'Account is restricted'
             return render_template('login.html', msg=msg)
 
         # After successful login, redirect to dashboard
-        if session['role'] == 1:
+        if session['role'] == Role.MANAGER:
             return redirect(url_for('manager.authenticate_manager'))
         else:
             return redirect(url_for('employee.authenticate_employee'))
@@ -160,7 +160,7 @@ def logout():
 @auth_bp.route('/verify-role', methods=['GET', 'POST'])
 def verify_role():
     if session['logged_in'] == True:
-        if session['role'] == 1:
+        if session['role'] == Role.MANAGER:
             return redirect(url_for('manager.authenticate_manager'))
         else:
             return redirect(url_for('employee.authenticate_employee'))

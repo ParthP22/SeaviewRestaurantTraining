@@ -3,6 +3,7 @@ from .certificate import generate_certificate
 import database
 import datetime
 from . import employee_bp
+from enums import Role
 
 def render_employee_dashboard(account, cursor):
     cursor.execute('SELECT NUM_CORRECT, NUM_INCORRECT, MAX(ATTEMPT_NUMBER) '
@@ -90,7 +91,7 @@ def authenticate_employee():
     if 'logged_in' in session and session['logged_in']:
         cursor.execute('SELECT * FROM Users WHERE Username=? AND Password=?', (session['username'], session['password']))
         account = cursor.fetchone()
-        if account and account[6] == 2:
+        if account and account[6] == Role.EMPLOYEE:
             cursor.execute('SELECT IS_COMPLETED FROM USERS WHERE ID=? ', (session['id'],))
             query = cursor.fetchone()
             is_completed = query[0]

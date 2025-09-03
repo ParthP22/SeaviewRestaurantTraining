@@ -4,11 +4,11 @@
 from flask import render_template, session, request
 import database
 from . import manager_bp
-
+from enums import Role
 
 @manager_bp.route('/history-log', methods=['GET', 'POST'])
 def history_log():
-    if session['role'] == 1:
+    if session['role'] == Role.MANAGER:
         cursor = database.conn.cursor()
         sort_by = request.args.get('sort', 'ATTEMPT_ID')  # Default sort is by 'ATTEMPT_ID'
         order = request.args.get('order', 'asc')  # Default order

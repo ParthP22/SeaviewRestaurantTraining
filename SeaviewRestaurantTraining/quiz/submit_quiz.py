@@ -3,10 +3,11 @@ import datetime
 from flask import render_template, redirect, url_for, session, request
 import database
 from . import quiz_bp
+from enums import Role
 
 @quiz_bp.route('/submit-quiz', methods=['GET', 'POST'])
 def submit_quiz():
-    if request.method == 'POST' and session['role'] == 2:
+    if request.method == 'POST' and session['role'] == Role.EMPLOYEE:
         quiz_id = request.form.get('quiz_id')
 
         cursor = database.conn.cursor()

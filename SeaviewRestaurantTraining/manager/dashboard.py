@@ -1,6 +1,7 @@
 from flask import render_template, redirect, url_for, session
 import database
 from . import manager_bp
+from enums import Role
 
 @manager_bp.route('/dashboard', methods=['GET', 'POST'])
 def authenticate_manager():
@@ -11,7 +12,7 @@ def authenticate_manager():
     if 'logged_in' in session and session['logged_in']:
         cursor.execute('SELECT * FROM Users WHERE Username=? AND Password=?', (session['username'], session['password']))
         account = cursor.fetchone()
-        if account and account[6] == 1:
+        if account and account[6] == Role.MANAGER:
             return render_template('manager/manager-dashboard.html')
 
     # Show the login form with message (if any)

@@ -9,6 +9,7 @@ import ssl
 import credentials
 from email.mime.multipart import MIMEMultipart
 from . import employee_bp
+from enums import QuizStatus
 
 def generate_certificate():
     cursor = database.conn.cursor()
@@ -22,7 +23,7 @@ def generate_certificate():
     query = cursor.fetchall()
     complete = False
     for result in query:
-        if result[2] == 1:
+        if result[2] == QuizStatus.COMPLETED:
             complete = True
         else:
             complete = False

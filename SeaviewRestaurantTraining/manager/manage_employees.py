@@ -7,10 +7,11 @@ import sqlite3
 from flask import render_template, redirect, url_for, session, request
 import database
 from . import manager_bp
+from enums import Role
 
 @manager_bp.route('/register-employee')
 def register_employee():
-    if session['role'] == 1:
+    if session['role'] == Role.MANAGER:
         cursor = database.conn.cursor()
 
         cursor.execute('SELECT * FROM Roles ')
@@ -28,7 +29,7 @@ def register_employee():
 
 @manager_bp.route('/manage-employee')
 def manage_employee():
-    if session['role'] == 1:
+    if session['role'] == Role.MANAGER:
         cursor = database.conn.cursor()
 
         cursor.execute('SELECT u.ID, u.USERNAME, u.FIRST_NAME || \' \' || u.LAST_NAME, u.EMAIL, r.ROLE_NAME, u.MANAGER_ID, m.FIRST_NAME || \' \' || m.LAST_NAME '

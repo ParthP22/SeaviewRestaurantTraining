@@ -4,11 +4,12 @@ import datetime
 from flask import render_template, redirect, url_for, session, request
 import database
 from . import quiz_bp
+from enums import Role
 
 #Routes quiz list to the quiz editor
 @quiz_bp.route('/quiz-editor')
 def quiz_editor():
-    if session['role'] == 1:
+    if session['role'] == Role.MANAGER:
 
         cursor = database.conn.cursor()
 
@@ -58,7 +59,7 @@ def quiz_editor():
 
 @quiz_bp.route('/submit-quiz-edit', methods=['GET', 'POST'])
 def submit_quiz_edit():
-    if session['role'] == 1:
+    if session['role'] == Role.MANAGER:
         count = 0
         file_data = None  # Define file_data variable outside the conditional block
         # Check if the quiz name, quiz description, and material name is inputted into their text boxes.

@@ -5,10 +5,11 @@
 from flask import render_template, session, request
 import database
 from . import quiz_bp
+from enums import Role
 
 @quiz_bp.route('/quiz-log', methods=['GET', 'POST'])
 def quiz_log():
-    if session['role'] == 1:
+    if session['role'] == Role.MANAGER:
         cursor = database.conn.cursor()
         sort_by = request.args.get('sort', 'CHANGE_ID')
         order = request.args.get('order', 'asc')
