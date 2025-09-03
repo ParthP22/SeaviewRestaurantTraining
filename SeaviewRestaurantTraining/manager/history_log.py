@@ -8,7 +8,7 @@ from SeaviewRestaurantTraining.enums import Role
 
 @manager_bp.route('/history-log', methods=['GET', 'POST'])
 def history_log():
-    if session['role'] == Role.MANAGER:
+    if session['role'] == Role.MANAGER.value:
         cursor = database.conn.cursor()
         sort_by = request.args.get('sort', 'ATTEMPT_ID')  # Default sort is by 'ATTEMPT_ID'
         order = request.args.get('order', 'asc')  # Default order

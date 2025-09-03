@@ -11,7 +11,7 @@ from SeaviewRestaurantTraining.enums import Role
 
 @manager_bp.route('/manage-quizzes')
 def manage_quizzes():
-    if session['role'] == Role.MANAGER:
+    if session['role'] == Role.MANAGER.value:
         cursor = database.conn.cursor()
 
         current_datetime = datetime.datetime.now()

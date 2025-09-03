@@ -91,7 +91,7 @@ def authenticate_employee():
     if 'logged_in' in session and session['logged_in']:
         cursor.execute('SELECT * FROM Users WHERE Username=? AND Password=?', (session['username'], session['password']))
         account = cursor.fetchone()
-        if account and account[6] == Role.EMPLOYEE:
+        if account and account[6] == Role.EMPLOYEE.value:
             cursor.execute('SELECT IS_COMPLETED FROM USERS WHERE ID=? ', (session['id'],))
             query = cursor.fetchone()
             is_completed = query[0]

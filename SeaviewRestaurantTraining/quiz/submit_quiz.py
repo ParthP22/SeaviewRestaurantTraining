@@ -7,7 +7,7 @@ from SeaviewRestaurantTraining.enums import Role
 
 @quiz_bp.route('/submit-quiz', methods=['GET', 'POST'])
 def submit_quiz():
-    if request.method == 'POST' and session['role'] == Role.EMPLOYEE:
+    if request.method == 'POST' and session['role'] == Role.EMPLOYEE.value:
         quiz_id = request.form.get('quiz_id')
 
         cursor = database.conn.cursor()

@@ -23,7 +23,7 @@ def generate_certificate():
     query = cursor.fetchall()
     complete = False
     for result in query:
-        if result[2] == QuizStatus.COMPLETED:
+        if result[2] == QuizStatus.COMPLETED.value:
             complete = True
         else:
             complete = False

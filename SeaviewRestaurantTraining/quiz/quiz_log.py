@@ -9,7 +9,7 @@ from SeaviewRestaurantTraining.enums import Role
 
 @quiz_bp.route('/quiz-log', methods=['GET', 'POST'])
 def quiz_log():
-    if session['role'] == Role.MANAGER:
+    if session['role'] == Role.MANAGER.value:
         cursor = database.conn.cursor()
         sort_by = request.args.get('sort', 'CHANGE_ID')
         order = request.args.get('order', 'asc')

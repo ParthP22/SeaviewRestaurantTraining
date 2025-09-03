@@ -12,7 +12,7 @@ def authenticate_manager():
     if 'logged_in' in session and session['logged_in']:
         cursor.execute('SELECT * FROM Users WHERE Username=? AND Password=?', (session['username'], session['password']))
         account = cursor.fetchone()
-        if account and account[6] == Role.MANAGER:
+        if account and account[6] == Role.MANAGER.value:
             return render_template('manager/manager-dashboard.html')
 
     # Show the login form with message (if any)

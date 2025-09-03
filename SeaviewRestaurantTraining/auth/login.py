@@ -11,7 +11,7 @@ from SeaviewRestaurantTraining.enums import AccountStatus, Role
 @auth_bp.route('/show-login')
 def show_login():
     return render_template('login.html')
-@auth_bp.route('/login', methods=['POST'])
+@auth_bp.route('/login', methods=['GET','POST'])
 def login():
     # Initialize message variable
     msg = ''
@@ -31,12 +31,12 @@ def login():
         session['role'] = account[6]
         session['restricted'] = account[8]
 
-        if session['restricted'] == AccountStatus.RESTRICTED:
+        if session['restricted'] == AccountStatus.RESTRICTED.value:
             msg = 'Account is restricted'
             return render_template('login.html', msg=msg)
 
         # After successful login, redirect to dashboard
-        if session['role'] == Role.MANAGER:
+        if session['role'] == Role.MANAGER.value:
             return redirect(url_for('manager.authenticate_manager'))
         else:
             return redirect(url_for('employee.authenticate_employee'))
@@ -160,7 +160,7 @@ def logout():
 @auth_bp.route('/verify-role', methods=['GET', 'POST'])
 def verify_role():
     if session['logged_in'] == True:
-        if session['role'] == Role.MANAGER:
+        if session['role'] == Role.MANAGER.value:
             return redirect(url_for('manager.authenticate_manager'))
         else:
             return redirect(url_for('employee.authenticate_employee'))

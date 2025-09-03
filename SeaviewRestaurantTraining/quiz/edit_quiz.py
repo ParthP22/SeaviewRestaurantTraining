@@ -9,7 +9,7 @@ from SeaviewRestaurantTraining.enums import Role
 #Routes quiz list to the quiz editor
 @quiz_bp.route('/quiz-editor')
 def quiz_editor():
-    if session['role'] == Role.MANAGER:
+    if session['role'] == Role.MANAGER.value:
 
         cursor = database.conn.cursor()
 
@@ -59,7 +59,7 @@ def quiz_editor():
 
 @quiz_bp.route('/submit-quiz-edit', methods=['GET', 'POST'])
 def submit_quiz_edit():
-    if session['role'] == Role.MANAGER:
+    if session['role'] == Role.MANAGER.value:
         count = 0
         file_data = None  # Define file_data variable outside the conditional block
         # Check if the quiz name, quiz description, and material name is inputted into their text boxes.
