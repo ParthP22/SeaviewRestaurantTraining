@@ -61,9 +61,9 @@
                             <td class="past-due">{{ quiz[8] }}</td>
                         {% endif %}
                         <td>{{ quiz[5] }}</td>
-                        <td> <a href="{{ url_for('quiz.quiz_material') }}?id={{ quiz[0] }}"  >Take</a> </td></td>
-                        <td><a href="/quiz.quiz_editor?quiz_id={{ quiz[0] }}&quiz_name={{ quiz[1] }}&quiz_desc={{ quiz[6] }}&is_Visible={{ quiz[5] }}&due_Date={{ quiz[8] }}{% for question in quiz_questions %}&question{{ loop.index }}={{ question.QUESTION }}&option{{ loop.index }}A={{ question.ANSWER_A }}&option{{ loop.index }}B={{ question.ANSWER_B }}&option{{ loop.index }}C={{ question.ANSWER_C }}&option{{ loop.index }}D={{ question.ANSWER_D }}&correctAnswer{{ loop.index }}={{ question.CORRECT_ANSWER }}{% endfor %}">Edit</a></td>
-                        <td> <a href="/deleteQuiz/{{ quiz[0] }}">Delete</a></td></td>
+                        <td><a href="{{ url_for('quiz.quiz_material', quiz_id=quiz[0]) }}"  >Take</a> </td></td>
+                        <td><a href="{{ url_for('quiz.quiz_editor', quiz_id=quiz[0]) }}">Edit</a></td>
+                        <td><a href="{{ url_for('manager.delete_quiz_route', quiz_id=quiz[0]) }}">Delete</a></td></td>
                     </tr>
                 {% endif %}
             {% endfor %}
