@@ -3,7 +3,7 @@ from .certificate import generate_certificate
 import database
 import datetime
 from . import employee_bp
-from enums import Role
+from SeaviewRestaurantTraining.enums import Role
 
 def render_employee_dashboard(account, cursor):
     cursor.execute('SELECT NUM_CORRECT, NUM_INCORRECT, MAX(ATTEMPT_NUMBER) '

@@ -4,7 +4,7 @@ import datetime
 from flask import render_template, redirect, url_for, session, request
 import database
 from . import quiz_bp
-from enums import Role
+from SeaviewRestaurantTraining.enums import Role
 
 #Routes quiz list to the quiz editor
 @quiz_bp.route('/quiz-editor')

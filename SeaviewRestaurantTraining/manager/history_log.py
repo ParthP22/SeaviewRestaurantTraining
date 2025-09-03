@@ -4,7 +4,7 @@
 from flask import render_template, session, request
 import database
 from . import manager_bp
-from enums import Role
+from SeaviewRestaurantTraining.enums import Role
 
 @manager_bp.route('/history-log', methods=['GET', 'POST'])
 def history_log():

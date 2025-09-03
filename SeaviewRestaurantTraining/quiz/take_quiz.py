@@ -9,7 +9,7 @@ from . import quiz_bp
 def take_quiz():
     # Retrieve quiz ID from the request URL
     quiz_id = request.args.get('quiz_id')
-
+    print("Quiz ID in Take Quiz: ", quiz_id)
 
     # Connect to SQLite database
     conn = database.conn

@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, session
 import database
 from . import manager_bp
-from enums import Role
+from SeaviewRestaurantTraining.enums import Role
 
 @manager_bp.route('/dashboard', methods=['GET', 'POST'])
 def authenticate_manager():

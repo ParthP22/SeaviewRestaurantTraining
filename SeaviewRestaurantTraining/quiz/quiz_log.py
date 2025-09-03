@@ -5,7 +5,7 @@
 from flask import render_template, session, request
 import database
 from . import quiz_bp
-from enums import Role
+from SeaviewRestaurantTraining.enums import Role
 
 @quiz_bp.route('/quiz-log', methods=['GET', 'POST'])
 def quiz_log():

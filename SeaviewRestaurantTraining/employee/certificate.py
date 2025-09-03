@@ -9,7 +9,7 @@ import ssl
 import credentials
 from email.mime.multipart import MIMEMultipart
 from . import employee_bp
-from enums import QuizStatus
+from SeaviewRestaurantTraining.enums import QuizStatus
 
 def generate_certificate():
     cursor = database.conn.cursor()

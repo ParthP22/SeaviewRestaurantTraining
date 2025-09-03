@@ -6,7 +6,7 @@
 from flask import render_template, redirect, url_for, session, request
 import database
 from . import auth_bp
-from enums import AccountStatus, Role
+from SeaviewRestaurantTraining.enums import AccountStatus, Role
 
 @auth_bp.route('/show-login')
 def show_login():
