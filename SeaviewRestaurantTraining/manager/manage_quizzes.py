@@ -330,7 +330,7 @@ def delete_quiz_route(quiz_id):
 
     database.conn.commit()
 
-    return redirect(url_for('manage_quizzes'))
+    return redirect(url_for('manager.manage_quizzes'))
 
 @manager_bp.route('/edit-quiz/<int:quiz_id>', methods=['GET'])
 def edit_quiz_route(quiz_id):
@@ -343,4 +343,4 @@ def edit_quiz_route(quiz_id):
 
     database.conn.commit()
 
-    return redirect(url_for('manage_quizzes'))
+    return redirect(url_for('manager.manage_quizzes'))
