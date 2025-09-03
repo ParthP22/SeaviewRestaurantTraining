@@ -11,3 +11,5 @@ class AccountStatus(Enum):
 class QuizStatus(Enum):
     UNCOMPLETED = 0
     COMPLETED = 1
+    VISIBLE = 1
+    NOT_VISIBLE = 0
