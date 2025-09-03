@@ -104,10 +104,10 @@ def submit_quiz():
 
         database.conn.commit()
 
+        return redirect(url_for('employee.authenticate_employee'))
+    elif request.method == 'POST' and session['role'] == 1:
+        return redirect(url_for('manager.authenticate_manager'))
 
 
 
-    # This redirects to the employee dashboard, I tried putting dashboard and it wouldn't let me so I did this.
-    # Later this will redirect to another page where it'll display the score you got, if you get less than 100,
-    # It will just contain a retry button, and if you get 100, there will be another button for returning to dashboard.
-    return redirect(url_for('authenticate_user'))
+   
