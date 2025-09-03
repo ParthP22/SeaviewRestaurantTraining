@@ -9,30 +9,47 @@ from . import quiz_bp
 @quiz_bp.route('/quiz-editor')
 def quiz_editor():
     if session['role'] == 1:
-        quiz_id = request.args.get('quiz_id')
-        quiz_name = request.args.get('quiz_name')
-        quiz_desc = request.args.get('quiz_desc')
 
         cursor = database.conn.cursor()
 
-        # Fetch all questions associated with the quiz
-        cursor.execute(
-            "SELECT QUESTION, ANSWER_A, ANSWER_B, ANSWER_C, ANSWER_D, CORRECT_ANSWER FROM QUESTIONS WHERE QUIZ_ID = ?",
-            (quiz_id,))
+        quiz_id = request.args.get('quiz_id', type=int)
+        print(quiz_id)
+
+        quiz_name, quiz_desc = None, None
         questions = []
-        for row in cursor.fetchall():
-            question_text, option_a, option_b, option_c, option_d, correct_answer = row
-            questions.append({
-                'question_text': question_text,
-                'option_a': option_a,
-                'option_b': option_b,
-                'option_c': option_c,
-                'option_d': option_d,
-                'correct_answer': correct_answer
-            })
 
-        cursor.close()
+        
+        if quiz_id:
+            
+            cursor.execute(
+                "SELECT QUIZ_NAME, QUIZ_DESC " \
+                "FROM QUIZZES " \
+                "WHERE QUIZ_ID = ?",
+                (quiz_id,))
 
+            quiz_row = cursor.fetchone()
+            if not quiz_row:
+                return "Quiz not found", 404
+
+            quiz_name, quiz_desc = quiz_row
+
+            # Fetch all questions associated with the quiz
+            cursor.execute(
+                "SELECT QUESTION, ANSWER_A, ANSWER_B, ANSWER_C, ANSWER_D, CORRECT_ANSWER FROM QUESTIONS WHERE QUIZ_ID = ?",
+                (quiz_id,))
+            for row in cursor.fetchall():
+                question_text, option_a, option_b, option_c, option_d, correct_answer = row
+                questions.append({
+                    'question_text': question_text,
+                    'option_a': option_a,
+                    'option_b': option_b,
+                    'option_c': option_c,
+                    'option_d': option_d,
+                    'correct_answer': correct_answer
+                })
+
+            cursor.close()
+            
         return render_template('quiz/quiz-editor.html', quiz_id=quiz_id, quiz_name=quiz_name, quiz_desc=quiz_desc,
                                questions=questions)
     else:
@@ -47,7 +64,11 @@ def submit_quiz_edit():
         # Check if the quiz name, quiz description, and material name is inputted into their text boxes.
         if request.method == 'POST' and 'quiz_name' in request.form and 'quiz_desc' in request.form and 'material_name' in request.form:
             # Retrieve data from the HTML form
-            quiz_id = request.form['quiz_id']
+            # quiz_id = request.form['quiz_id']
+            # print("URL: ", request.url)
+            # The first one handles quiz edits, while the second one handles quiz creation
+            quiz_id = request.form.get('quiz_id') or request.args.get('quiz_id')
+            # print("Quiz ID: ?, Type: ?",(quiz_id,type(quiz_id)))
             quiz_name = request.form['quiz_name']
             quiz_desc = request.form['quiz_desc']
             material_name = request.form['material_name']
@@ -71,8 +92,10 @@ def submit_quiz_edit():
                     questions.append(question)
 
             cursor = database.conn.cursor()
-            if quiz_id != "None":
+            if quiz_id:
+                print("Deleting old quiz version...")
                 cursor.execute('UPDATE QUIZZES SET IS_DELETED=1 WHERE QUIZ_ID=?', (int(quiz_id),))
+            print("Quiz Desc: " + quiz_desc)
             cursor.execute('INSERT INTO QUIZZES (QUIZ_NAME, TOTAL_QUESTIONS, TOTAL_CORRECT, TOTAL_INCORRECT, IS_VISIBLE, QUIZ_DESC, IS_DELETED, DUE_DATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', (quiz_name, count, 0, 0, is_visible, quiz_desc, 0, due_date))
             cursor.execute('UPDATE USERS SET IS_COMPLETED=0 ')
             #Gets the ID from the quiz that was just created to upload that into the questions that are created.
@@ -122,6 +145,6 @@ def submit_quiz_edit():
             # Commit changes to the database
             database.conn.commit()
 
-            return redirect(url_for('manage_quizzes'))
+            return redirect(url_for('manager.manage_quizzes'))
     else:
         render_template('error/prohibited.html')
