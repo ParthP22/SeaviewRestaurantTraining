@@ -6,7 +6,7 @@ from . import quiz_bp
 
 @quiz_bp.route('/quiz-material', methods=['GET', 'POST'])
 def quiz_material():
-    quiz_id = request.args.get('id')
+    quiz_id = request.args.get('quiz_id')
 
     cursor = database.conn.cursor()
     cursor.execute('SELECT MATERIAL_BYTES FROM TRAINING_MATERIALS WHERE QUIZ_ID=?', (quiz_id,))
