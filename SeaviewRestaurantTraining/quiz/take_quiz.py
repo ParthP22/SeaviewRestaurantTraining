@@ -10,6 +10,7 @@ def take_quiz():
     # Retrieve quiz ID from the request URL
     quiz_id = request.args.get('quiz_id')
 
+
     # Connect to SQLite database
     conn = database.conn
 
@@ -20,9 +21,9 @@ def take_quiz():
     quiz_name, quiz_desc = quiz_info if quiz_info else (None, None)
 
     # Fetch questions for the specified quiz from the database
-    cursor.execute(
-        "SELECT QUESTION_ID, QUESTION, ANSWER_A, ANSWER_B, ANSWER_C, ANSWER_D, CORRECT_ANSWER FROM QUESTIONS WHERE QUIZ_ID = ?",
-        (quiz_id,))
+    # cursor.execute(
+    #     "SELECT QUESTION_ID, QUESTION, ANSWER_A, ANSWER_B, ANSWER_C, ANSWER_D, CORRECT_ANSWER FROM QUESTIONS WHERE QUIZ_ID = ?",
+    #     (quiz_id,))
     questions = []
     for row in cursor.execute(
             "SELECT QUESTION_ID, QUESTION, ANSWER_A, ANSWER_B, ANSWER_C, ANSWER_D, CORRECT_ANSWER FROM QUESTIONS WHERE QUIZ_ID = ?",
