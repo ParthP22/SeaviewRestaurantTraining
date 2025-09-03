@@ -7,7 +7,7 @@ import sqlite3
 from flask import render_template, redirect, url_for, session, request
 import database
 from . import manager_bp
-from SeaviewRestaurantTraining.enums import Role
+from SeaviewRestaurantTraining.enums import Role, AccountStatus
 
 @manager_bp.route('/register-employee')
 def register_employee():
@@ -101,7 +101,7 @@ def delete_user(item_id):
 @manager_bp.route('/restrict/<int:item_id>', methods=['GET'])
 def restrict_user(item_id):
     cursor = database.conn.cursor()
-    value = 1
+    value = AccountStatus.RESTRICTED.value
     cursor.execute("UPDATE Users SET IsRestricted = ? WHERE id = ?", (value, item_id,))
     database.conn.commit()
     return redirect(url_for('manager.manage_employee'))    
@@ -111,7 +111,7 @@ def edit_employee(item_id):
     cursor = database.conn.cursor()
     # If it's a POST request, update the role
     if request.method == 'POST':
-        new_role_id = request.form.get('role')
+        new_role_id = request.form.get('role', type=int)
         new_manager_id = request.form.get('manager')
         if new_manager_id == 'None':
             new_manager_id = None
@@ -119,7 +119,7 @@ def edit_employee(item_id):
 
         database.conn.commit()
         print(new_role_id)
-        if new_role_id == '2' and item_id == session['id']:
+        if new_role_id == Role.EMPLOYEE.value and item_id == session['id']:
             return redirect(url_for('auth.logout'))
 
         else:
@@ -150,7 +150,7 @@ def edit_employee(item_id):
 
 
     you = None
-    if session['role'] == 1:
+    if session['role'] == Role.MANAGER.value:
         cursor.execute('SELECT ID, FIRST_NAME || \' \' || LAST_NAME AS NAME '
                        'FROM USERS '
                        'WHERE ID = ?', (item_id,))
