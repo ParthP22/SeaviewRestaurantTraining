@@ -95,7 +95,7 @@ def delete_user(item_id):
     cursor = database.conn.cursor()
     cursor.execute("DELETE FROM Users WHERE id=?", (item_id,))
     database.conn.commit()
-    return redirect(url_for('manage_employee'))
+    return redirect(url_for('manager.manage_employee'))
 
 @manager_bp.route('/restrict/<int:item_id>', methods=['GET'])
 def restrict_user(item_id):
@@ -103,7 +103,7 @@ def restrict_user(item_id):
     value = 1
     cursor.execute("UPDATE Users SET IsRestricted = ? WHERE id = ?", (value, item_id,))
     database.conn.commit()
-    return redirect(url_for('manage_employee'))    
+    return redirect(url_for('manager.manage_employee'))    
 
 @manager_bp.route('/edit-employee/<int:item_id>', methods=['GET', 'POST'])
 def edit_employee(item_id):
@@ -119,10 +119,10 @@ def edit_employee(item_id):
         database.conn.commit()
         print(new_role_id)
         if new_role_id == '2' and item_id == session['id']:
-            return redirect(url_for('authenticate_user'))
+            return redirect(url_for('employee.authenticate_employee'))
 
         else:
-            return redirect(url_for('manage_employee'))
+            return redirect(url_for('manager.manage_employee'))
 
     # For a GET request, show the edit form with current role
     cursor.execute('SELECT DISTINCT u.ROLE_ID, r.ROLE_NAME '
