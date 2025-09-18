@@ -7,7 +7,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import numpy as np
-from flask import redirect, session
+from flask import redirect, session, render_template
 from matplotlib import pyplot as plt
 
 import database, smtplib, ssl, credentials
@@ -134,22 +134,27 @@ def send_submission_report(subject, recipient_email, body, filename):
 # This is for the manager dashboard
 @manager_bp.route('/progress-report/<int:user_id>', methods=['GET'])
 def send_report(user_id):
-    cursor = database.conn.cursor()
-    cursor.execute('SELECT EMAIL FROM USERS WHERE ID=? ', (session['id'],))
-    manager_email = cursor.fetchone()[0]
+    return render_template('error/wip.html')
 
-    cursor.execute('SELECT FIRST_NAME, LAST_NAME FROM USERS WHERE ID=?', (user_id,))
-    query = cursor.fetchone()
-    first_name = query[0]
-    last_name = query[1]
+# 9/18/2025: the emailing system no longers works, so trying to send a progress report
+# will redirect you to the WIP page
 
-    create_double_bar_graph(user_id)
+#     cursor = database.conn.cursor()
+#     cursor.execute('SELECT EMAIL FROM USERS WHERE ID=? ', (session['id'],))
+#     manager_email = cursor.fetchone()[0]
 
-    if manager_email is not None:
-        subject = f"{first_name} {last_name}'s Progress Report"
-        body = f"Attached below is an image displaying a bar graph of {first_name} {last_name}'s progress."
-        send_progress_report(subject, body, manager_email)
-    return redirect('/manage-employee')
+#     cursor.execute('SELECT FIRST_NAME, LAST_NAME FROM USERS WHERE ID=?', (user_id,))
+#     query = cursor.fetchone()
+#     first_name = query[0]
+#     last_name = query[1]
+
+#     create_double_bar_graph(user_id)
+
+#     if manager_email is not None:
+#         subject = f"{first_name} {last_name}'s Progress Report"
+#         body = f"Attached below is an image displaying a bar graph of {first_name} {last_name}'s progress."
+#         send_progress_report(subject, body, manager_email)
+#     return redirect('/manage-employee')
 
 
 def create_double_bar_graph(user_id):
