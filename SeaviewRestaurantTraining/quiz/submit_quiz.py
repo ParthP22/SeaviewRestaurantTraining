@@ -100,7 +100,7 @@ def submit_quiz():
 
 
 
-
+        # 9/18/2025: emailing doesn't work anymore, so I have commented this out
         # send_reports.quiz_submission_report(session['id'], latest_attempt_id + 1)
 
         database.conn.commit()
