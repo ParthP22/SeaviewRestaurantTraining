@@ -39,14 +39,14 @@ def calculate_progress_bar(account,cursor):
     # (Note: we have to do this, because we don't want to accidentally 
     # divide by 0)
     if total_questions == 0:
-        return total_correct, total_questions, 0
+        return (total_correct, total_questions, 0)
     
     # Calculate the percentage that the employee has gotten correct over
     # all quizzes 
     else:
         percent = total_correct / total_questions * 100
         percent = round(percent, 2)
-        return total_correct, total_questions, percent
+        return (total_correct, total_questions, percent)
     
 # Computes all data needed by ChartJS for the bar graph displayed on the
 # employee dashboard which shows the employee's current progress
@@ -102,11 +102,14 @@ def render_employee_dashboard(account, cursor):
     # Note to self: as of right now (9/3/2025) the span tag in employee-dashboard.html that
     # uses this percent variable has been commented out, so I made remove this variable
     # entirely in the future.
-    percent_complete, total_correct, total_questions = calculate_progress_bar(account,cursor)
+    total_correct, total_questions, percent_complete = calculate_progress_bar(account,cursor)
 
     quiz_list, num_correct, num_incorrect = compute_data_for_graph(cursor)
 
     quizzes, current_date = remaining_quizzes_list(cursor)
+
+    print("Current correct: ", total_correct)
+    print("Total questions: ", total_questions)
 
     return render_template('employee/employee-dashboard.html', progress=total_correct, total_questions=total_questions, quizzes=quizzes, percent=percent_complete, num_correct=num_correct, num_incorrect=num_incorrect, quiz_list=quiz_list, current_date = current_date)
 
