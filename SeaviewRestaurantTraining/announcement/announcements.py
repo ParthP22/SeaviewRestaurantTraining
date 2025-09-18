@@ -33,48 +33,53 @@ def send_mail(subject, body):
 
 @announcement_bp.route('/', methods=['GET', 'POST'])
 def announcements():
-    cursor = database.conn.cursor()
-    cursor.execute('SELECT FIRST_NAME, LAST_NAME '
-                   'FROM USERS '
-                   'WHERE ID = ? ', (session['id'],))
-    first_name, last_name = cursor.fetchone()
+    return render_template('error/wip.html')
 
-    if session['role'] == 1:
-        # Admin
-        status = "Type your message"
-        if request.method == 'POST' and 'subject' in request.form and 'body' in request.form:
+# 9/18/2025: The emailing still doesn't work because Outlook doesn't support it now. Will fix later.
+# So, we instead redirect to the WIP page
 
-            subject = request.form['subject']
-            mail_body = request.form['body']
-            db_body = request.form['body']
-            closing = f"""
+#     cursor = database.conn.cursor()
+#     cursor.execute('SELECT FIRST_NAME, LAST_NAME '
+#                    'FROM USERS '
+#                    'WHERE ID = ? ', (session['id'],))
+#     first_name, last_name = cursor.fetchone()
+
+#     if session['role'] == 1:
+#         # Admin
+#         status = "Type your message"
+#         if request.method == 'POST' and 'subject' in request.form and 'body' in request.form:
+
+#             subject = request.form['subject']
+#             mail_body = request.form['body']
+#             db_body = request.form['body']
+#             closing = f"""
             
-- Sincerely,
-{first_name} {last_name}   
-            """
+# - Sincerely,
+# {first_name} {last_name}   
+#             """
 
-            send_mail(subject, mail_body + closing.rjust(len(mail_body)))
-            status = "Email sent successfully"
-            cursor.execute('SELECT MAX(MESSAGE_ID) FROM ANNOUNCEMENTS')
-            query = cursor.fetchone()
-            curr_message_id = 0
-            if query[0] is not None:
-                curr_message_id = query[0]
-            cursor.execute('INSERT INTO ANNOUNCEMENTS(MESSAGE_ID, SUBJECT, MESSAGE, DATE_TIME, EMPLOYEE_ID) VALUES (?, ?, ?, ?, ?)', (curr_message_id + 1,subject,db_body,datetime.datetime.now(),session['id']))
-            database.conn.commit()
-            # return redirect(url_for('announcements'))
-            return render_template('manager/announcements.html', status=status)
+#             send_mail(subject, mail_body + closing.rjust(len(mail_body)))
+#             status = "Email sent successfully"
+#             cursor.execute('SELECT MAX(MESSAGE_ID) FROM ANNOUNCEMENTS')
+#             query = cursor.fetchone()
+#             curr_message_id = 0
+#             if query[0] is not None:
+#                 curr_message_id = query[0]
+#             cursor.execute('INSERT INTO ANNOUNCEMENTS(MESSAGE_ID, SUBJECT, MESSAGE, DATE_TIME, EMPLOYEE_ID) VALUES (?, ?, ?, ?, ?)', (curr_message_id + 1,subject,db_body,datetime.datetime.now(),session['id']))
+#             database.conn.commit()
+#             # return redirect(url_for('announcements'))
+#             return render_template('manager/announcements.html', status=status)
 
-        else:
-            return render_template('manager/announcements.html', status=status)
+#         else:
+#             return render_template('manager/announcements.html', status=status)
 
-    else:
-        # employee/basic user page
-        cursor.execute('SELECT SUBJECT,MESSAGE,DATE_TIME, e.FIRST_NAME, e.LAST_NAME '
-                       'FROM ANNOUNCEMENTS a JOIN USERS e '
-                       'ON a.EMPLOYEE_ID = e.ID '
-                       'ORDER BY MESSAGE_ID DESC ')
-        emails = cursor.fetchall()
-        return render_template('employee/announcements-history.html', emails=emails)
+#     else:
+#         # employee/basic user page
+#         cursor.execute('SELECT SUBJECT,MESSAGE,DATE_TIME, e.FIRST_NAME, e.LAST_NAME '
+#                        'FROM ANNOUNCEMENTS a JOIN USERS e '
+#                        'ON a.EMPLOYEE_ID = e.ID '
+#                        'ORDER BY MESSAGE_ID DESC ')
+#         emails = cursor.fetchall()
+#         return render_template('employee/announcements-history.html', emails=emails)
 
 
