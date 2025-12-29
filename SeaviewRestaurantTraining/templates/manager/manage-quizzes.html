@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Quiz List - Seaview Training{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+            <h2>Quiz List</h2>
+        </div>
+    </div>
+</div>
+    <style>
+        Style the container
+        .message-container {
+            width: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            white-space: pre-wrap;
+        }
+
+        /* Style for due date past due */
+        .past-due {
+            color: red;
+        }
+
+        /* Style for due date not past due */
+         .not-past-due {
+             color: lawngreen;
+         }
+
+    </style>
+
+
+
+<div class="container">
+    <table class="display" id="quiz_table" width="100%">
+        <thead>
+            <tr>
+                <th>Quiz ID</th>
+                <th>Quiz Name</th>
+                <th>Quiz Description</th>
+                <th>Total Questions</th>
+                <th>Due Date</th>
+                <th>Visiblity</th>
+                <th>Take Quiz</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quiz in quizzes %}
+                {% if quiz[7] == 0 %}
+                    <tr>
+                        <td>{{ quiz[0] }}</td>
+                        <td>{{ quiz[1] }}</td>
+                        <td>{{ quiz[6] }}</td>
+                        <td>{{ quiz[2] }}</td>
+                        {% if quiz[8] > current_date %}
+                            <td class="not-past-due">{{ quiz[8] }}</td>
+                        {% else %}
+                            <td class="past-due">{{ quiz[8] }}</td>
+                        {% endif %}
+                        <td>{{ quiz[5] }}</td>
+                        <td><a href="{{ url_for('quiz.quiz_material', quiz_id=quiz[0]) }}"  >Take</a> </td></td>
+                        <td><a href="{{ url_for('quiz.quiz_editor', quiz_id=quiz[0]) }}">Edit</a></td>
+                        <td><a href="{{ url_for('manager.delete_quiz_route', quiz_id=quiz[0]) }}">Delete</a></td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <a href="{{ url_for('quiz.quiz_editor') }}" class="btn btn-primary ">Create Quiz</a>
+        </tfoot>
+    </table>
+</div>
+<!-- Add home page content here -->
+{% endblock %}
+
+<script>
+    $(document).ready(function() {
+    $('#users_table').DataTable({
+
+
+    });
+});
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#quiz_table').DataTable();
+    });
+</script>
+
+

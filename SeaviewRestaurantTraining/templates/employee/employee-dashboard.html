@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Home - Seaview Training{% endblock %}
+
+{% block content %}
+<style xmlns="http://www.w3.org/1999/html">
+        .scroll-box {
+            width: 150px;
+            height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+        }
+
+        .scroll-box button {
+            display: block;
+            width: 100%;
+            padding: 5px 10px;
+            margin: 2px 0;
+            text-align: left;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .scroll-box button:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+<style>
+    .core-container {
+    display: flex;
+    }
+
+    .quiz-list {
+        flex: 1;
+    }
+
+    .quiz-chart {
+        flex: 1;
+        margin-left: 20px;
+    }
+        /* Style for due date past due */
+        .past-due {
+            color: red;
+        }
+
+        /* Style for due date not past due */
+         .not-past-due {
+             color: lawngreen;
+         }
+</style>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+                <h2>Welcome to Seaview Restaurant Training!</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-md-center">
+<!--            <div class="progress">-->
+<!--                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: 100%">-->
+<!--                    {{progress}}%-->
+<!--                </div>-->
+<!--            </div>-->
+            <progress class="progress-bar" value="{{progress}}" max="{{total_questions}}"> {{progress}} </progress>
+            <br/>
+<!--            <span class="progress-value">{{percent}}</span>-->
+            <a href="{{ url_for('announcement.announcements') }}" class="btn btn-primary btn-lg btn-block">Announcements</a>
+        </div>
+    </div>
+    <br/>
+<!--Note from Parth to the Ryans: you're gonna need to put the route of your quiz taking function for href.
+    Look at the HTML code that Pranjal did on base.html, where she created the header for "Home", "Contact", "Logout"
+    if you need an example.-->
+<!--    <div style="width: 500px; text-align: left; padding: 30px">-->
+<div class="container core-container">
+    <div class="quiz-list">
+    <table class="display" id="quiz_table" width="100%">
+        <thead>
+            <tr>
+                <th>Quizzes</th>
+                <th>Due Dates</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quiz in quizzes %}
+                {% if quiz[5] == 1 and quiz[7] == 0 %}
+                    <tr>
+                        <td> <a href="{{ url_for('quiz.quiz_material', quiz_id=quiz[0]) }}" class="nav-link" style="word-wrap: break-word">{{quiz[1]}} - {{quiz[6]}} </a> </td>
+                        {% if quiz[8] > current_date %}
+                            <td class="not-past-due">{{ quiz[8] }}</td>
+                        {% else %}
+                            <td class="past-due">{{ quiz[8] }}</td>
+                        {% endif %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <div class="quiz-chart"><canvas id="doubleBarChart" width="600" height="600"></canvas></div>
+
+    <script>
+        const quizNames = JSON.parse('{{ quiz_list | tojson | safe }}')
+        const numCorrect = JSON.parse('{{ num_correct | tojson | safe }}')
+        const numIncorrect = JSON.parse('{{ num_incorrect | tojson | safe }}')
+
+        var data = {
+            labels: quizNames,
+            datasets: [
+                {
+                    label: 'Number of Correct',
+                    backgroundColor: 'rgba(0, 230, 0, 0.5)',
+                    borderColor: 'rgba(0, 230, 0, 0.5)',
+                    borderWidth: 1,
+                    data: numCorrect
+                },
+                {
+                    label: 'Number of Incorrect',
+                    backgroundColor: 'rgba(230, 0, 0, 0.5)',
+                    borderColor: 'rgba(230, 0, 0, 0.5)',
+                    borderWidth: 1,
+                    data: numIncorrect
+                }
+            ]
+        };
+
+        var options = {
+            plugins: {
+                title: {
+                    display: true,
+                    text: `Your Progress For Each Quiz`,
+                    font: {
+                        size: 30
+                    }
+                }
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+
+            }
+        };
+
+        // Create the double bar graph
+        var context = document.getElementById('doubleBarChart').getContext('2d');
+        var correct_incorrect = new Chart(context, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    </script>
+<!--    </div>-->
+</div>
+    <!-- Add home page content here -->
+{% endblock %}
+
+

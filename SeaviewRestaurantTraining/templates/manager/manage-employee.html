@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Manage Employee - Seaview Training{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+            <h2>Manage Employee</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <table class="display" id="users_table" width="100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role Name</th>
+                <th>Manager ID</th>
+                <th>Manager Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user[0] }}</td>
+                    <td>{{ user[1] }}</td>
+                    <td>{{ user[2] }}</td>
+                    <td>{{ user[3] }}</td>
+                    <td>{{ user[4] }}</td>
+                    <td>{{ user[5] }}</td>
+                    <td>{{ user[6] }}</td>
+                    <td> <a href="{{ url_for('manager.delete_user', item_id=user[0]) }}">Delete</a></td>
+                    <td> <a href="{{ url_for('manager.send_report', user_id=user[0]) }}">Receive Report</a></td>
+                    <td> <a href="{{ url_for('manager.restrict_user', item_id=user[0]) }}">Restrict</a></td>
+                    <td> <a href="{{ url_for('manager.edit_employee', item_id=user[0]) }}">Edit</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <a href="{{ url_for('manager.register_employee') }}" class="btn btn-primary ">Register New Employee</a>
+        </tfoot>
+    </table>
+</div>
+<!-- Add home page content here -->
+{% endblock %}
+
+<script>
+    $(document).ready(function() {
+    $('#users_table').DataTable({
+
+
+    });
+});
+
+</script>

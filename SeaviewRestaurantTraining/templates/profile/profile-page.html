@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}User Profile - Seaview Training{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>User Profile</h2>
+            <p>Username: <span id="username">{{ user_profile[0] }}</span></p>
+            <p>Password: <span id="password">{{ user_profile[1] }}</span></p>
+            <p>Email: <span id="email">{{ user_profile[2] }}</span></p>
+            <p>First Name: <span id="first-name">{{ user_profile[3] }}</span></p>
+            <p>Last Name: <span id="last-name">{{ user_profile[4] }}</span></p>
+            <a href="{{ url_for('profile.edit_profile') }}" class="btn btn-primary">Edit Profile</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    .btn-primary {
+        background-color: blue;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition: 0.3s;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background-color: darkblue;
+    }
+</style>

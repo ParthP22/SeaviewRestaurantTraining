@@ -6,11 +6,9 @@
 # Note from Parth: I know PyCharm says that these imports aren't being used,
 # but you actually need them in order to link the files together.
 
+from SeaviewRestaurantTraining import create_app
 
-
-import secrets
-from routes import website
-
+app = create_app()
 
 if __name__ == '__main__':
-    website.run(debug=True)
+    app.run(debug=True)

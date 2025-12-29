@@ -22,6 +22,13 @@ To run this project, a "credentials.py" file is required. This file contains the
 
 We have deployed the website using Python Anywhere, and it can be accessed here: https://seaviewtraining.pythonanywhere.com/
 
+To run this project locally:
+1. Clone the repo: <code>git clone github.com/Minneo03/CSCI4485-SeaviewRestaurantTraining</code>
+2. Open your terminal and create a Python virtual environment by doing: <code>python -m venv venv</code>
+3. Activate your virtual environment by doing either: <code>source venv/bin/activate</code> OR <code>source venv/Scripts/activate</code>
+4. To download all the required packages for this project, do: <code>pip install -r requirements.txt</code>
+5. Finally, to run the project, make sure you are in the root directory of this project and do: <code>python app.py</code>
+
 **Team Members and General Contributions**
 
 Parth Patel (ParthP22):

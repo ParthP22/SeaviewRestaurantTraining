@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Quiz</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.1);
+        }
+        .question {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        input[type="text"],
+        select {
+            width: calc(100% - 22px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        /* Button styling */
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        /* Same button style as the "Add Question" button */
+        .back-button button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* Button hover effect */
+        .back-button button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Quiz</h1>
+
+        <form id="quizForm" action="{{ url_for('quiz.submit_quiz_edit') }}" method="POST" enctype="multipart/form-data">
+            {% if quiz_id %}
+                <input type="hidden" name="quiz_id" value="{{ quiz_id }}">
+            {% endif %}
+            <label for="quiz_name">Quiz Name:</label>
+            <input type="text" id="quizTitle" name="quiz_name" value="{{ quiz_name or '' }}">
+
+            <label for="quiz_desc">Quiz Description:</label>
+            <br>
+            <textarea id="quiz_desc" name="quiz_desc">{{ quiz_desc or '' }}</textarea>
+            <br><br>
+            <label for="material_name">Name the PDF file:</label>
+            <input type="text" id="material_name" name="material_name">
+
+            <label for="file">Choose a PDF to upload:</label>
+            <input type="file" id="file" name="file" accept=".pdf">
+
+            <div id="questionsContainer">
+                {% for question in questions %}
+                    <div class="question">
+                        <label>Question:</label>
+                        <input type="text" name="question{{ loop.index }}" value="{{ question.question_text }}">
+
+                        <label>Option A:</label>
+                        <input type="text" name="option{{ loop.index }}A" value="{{ question.option_a }}">
+
+                        <label>Option B:</label>
+                        <input type="text" name="option{{ loop.index }}B" value="{{ question.option_b }}">
+
+                        <label>Option C:</label>
+                        <input type="text" name="option{{ loop.index }}C" value="{{ question.option_c }}">
+
+                        <label>Option D:</label>
+                        <input type="text" name="option{{ loop.index }}D" value="{{ question.option_d }}">
+
+                        <label>Correct Answer:</label>
+                        <select name="correctAnswer{{ loop.index }}">
+                            <option value="optionA" {% if question.correct_answer == 'optionA' %}selected{% endif %}>Option A</option>
+                            <option value="optionB" {% if question.correct_answer == 'optionB' %}selected{% endif %}>Option B</option>
+                            <option value="optionC" {% if question.correct_answer == 'optionC' %}selected{% endif %}>Option C</option>
+                            <option value="optionD" {% if question.correct_answer == 'optionD' %}selected{% endif %}>Option D</option>
+                        </select>
+
+                        <button type="button" onclick="deleteQuestion(this)">Delete Question</button>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <label>Visibility:</label>
+            <input type="checkbox" name="isVisible" value="1" {% if is_visible %}checked{% endif %}>
+
+            <label>Due Date:</label>
+            <input type="datetime-local" name="due_date" value="{{ due_date }}">
+
+            <button type="button" onclick="addQuestion()">Add Question</button>
+            <input type="submit" value="Save Quiz">
+        </form>
+    </div>
+
+    <div class="back-button">
+        <button onclick="window.history.back()">Go Back</button>
+    </div>
+
+    <script>
+        function addQuestion() {
+            const container = document.getElementById('questionsContainer');
+            const qNum = container.children.length + 1;
+
+            const div = document.createElement('div');
+            div.className = 'question';
+            div.innerHTML = `
+                <label>Question:</label>
+                <input type="text" name="question${qNum}">
+
+                <label>Option A:</label>
+                <input type="text" name="option${qNum}A">
+
+                <label>Option B:</label>
+                <input type="text" name="option${qNum}B">
+
+                <label>Option C:</label>
+                <input type="text" name="option${qNum}C">
+
+                <label>Option D:</label>
+                <input type="text" name="option${qNum}D">
+
+                <label>Correct Answer:</label>
+                <select name="correctAnswer${qNum}">
+                    <option value="optionA">Option A</option>
+                    <option value="optionB">Option B</option>
+                    <option value="optionC">Option C</option>
+                    <option value="optionD">Option D</option>
+                </select>
+
+                <button type="button" onclick="deleteQuestion(this)">Delete Question</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function deleteQuestion(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
